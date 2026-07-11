@@ -1,0 +1,76 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.6.2
+2 info using node@v24.13.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:D:\Project\my-protfolio\.npmrc
+5 silly config load:file:C:\Users\ridwa\.npmrc
+6 silly config load:file:C:\Users\ridwa\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install lucide-react
+8 verbose argv "install" "lucide-react" "--cache" ".\\.npm-cache"
+9 verbose logfile logs-max:10 dir:D:\Project\my-protfolio\.npm-cache\_logs\2026-07-02T18_30_46_927Z-
+10 verbose logfile D:\Project\my-protfolio\.npm-cache\_logs\2026-07-02T18_30_46_927Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly idealTree buildDeps
+14 silly fetch manifest lucide-react@*
+15 silly packumentCache full:https://registry.npmjs.org/lucide-react cache-miss
+16 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+17 http fetch GET 200 https://registry.npmjs.org/npm 157ms
+18 http fetch GET 200 https://registry.npmjs.org/lucide-react 155ms (cache miss)
+19 silly placeDep ROOT lucide-react@ OK for: react-vite-tailwind@0.0.0 want: *
+20 verbose type system
+21 verbose stack FetchError: Invalid response body while trying to fetch https://registry.npmjs.org/lucide-react: EPERM: operation not permitted, unlink 'D:\Project\my-protfolio\.npm-cache\_cacache\tmp\2e27ff63'
+21 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\body.js:170:15
+21 verbose stack     at async Response.json (C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\body.js:75:17)
+21 verbose stack     at async RegistryFetcher.packument (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:98:25)
+21 verbose stack     at async RegistryFetcher.manifest (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:128:23)
+21 verbose stack     at async #fetchManifest (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1227:20)
+21 verbose stack     at async #nodeFromEdge (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1065:19)
+21 verbose stack     at async #buildDepStep (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:929:11)
+21 verbose stack     at async Arborist.buildIdealTree (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:182:7)
+21 verbose stack     at async Promise.all (index 1)
+21 verbose stack     at async Arborist.reify (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\reify.js:114:5)
+22 error code EPERM
+23 error syscall unlink
+24 error path D:\Project\my-protfolio\.npm-cache\_cacache\tmp\2e27ff63
+25 error errno EPERM
+26 error FetchError: Invalid response body while trying to fetch https://registry.npmjs.org/lucide-react: EPERM: operation not permitted, unlink 'D:\Project\my-protfolio\.npm-cache\_cacache\tmp\2e27ff63'
+26 error     at C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\body.js:170:15
+26 error     at async Response.json (C:\Program Files\nodejs\node_modules\npm\node_modules\minipass-fetch\lib\body.js:75:17)
+26 error     at async RegistryFetcher.packument (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:98:25)
+26 error     at async RegistryFetcher.manifest (C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\registry.js:128:23)
+26 error     at async #fetchManifest (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1227:20)
+26 error     at async #nodeFromEdge (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1065:19)
+26 error     at async #buildDepStep (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:929:11)
+26 error     at async Arborist.buildIdealTree (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:182:7)
+26 error     at async Promise.all (index 1)
+26 error     at async Arborist.reify (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\reify.js:114:5) {
+26 error   code: 'EPERM',
+26 error   errno: 'EPERM',
+26 error   syscall: 'unlink',
+26 error   path: 'D:\\Project\\my-protfolio\\.npm-cache\\_cacache\\tmp\\2e27ff63',
+26 error   type: 'system',
+26 error   requiredBy: '.'
+26 error }
+27 error
+27 error The operation was rejected by your operating system.
+27 error It's possible that the file was already in use (by a text editor or antivirus),
+27 error or that you lack permissions to access it.
+27 error
+27 error If you believe this might be a permissions issue, please double-check the
+27 error permissions of the file and its containing directories, or try running
+27 error the command again as root/Administrator.
+28 silly unfinished npm timer reify 1783017048144
+29 silly unfinished npm timer reify:loadTrees 1783017048146
+30 verbose cwd D:\Project\my-protfolio
+31 verbose os Windows_NT 10.0.26300
+32 verbose node v24.13.0
+33 verbose npm  v11.6.2
+34 notice
+34 notice New minor version of npm available! 11.6.2 -> 11.18.0
+34 notice Changelog: https://github.com/npm/cli/releases/tag/v11.18.0
+34 notice To update run: npm install -g npm@11.18.0
+34 notice  { force: true, Symbol(proc-log.meta): true }
+35 verbose exit 1
+36 verbose code 1
+37 error A complete log of this run can be found in: D:\Project\my-protfolio\.npm-cache\_logs\2026-07-02T18_30_46_927Z-debug-0.log
