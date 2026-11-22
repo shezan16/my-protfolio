@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
-import { PROJECTS } from "../data/projects";
+import { useEffect, useRef, useState } from "react";
+import { PROJECTS, Project } from "../data/projects";
 import { cn } from "../utils/cn";
 import Button from "./ui/Button";
 
 const MOBILE_INITIAL_COUNT = 4;
 const DESKTOP_INITIAL_COUNT = 6;
+const VIRTUAL_WIDTH = 1280;
+const VIRTUAL_HEIGHT = 960;
+
 const CARD_TILTS = [
   "-rotate-3 translate-y-1",
   "rotate-2 -translate-y-2",
@@ -14,29 +17,105 @@ const CARD_TILTS = [
   "rotate-[2.2deg] translate-y-2",
 ];
 
+function ProjectPreviewMedia({ project }: { project: Project }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [scale, setScale] = useState(0.25);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const updateScale = () => {
+      const width = el.clientWidth;
+      if (width > 0) {
+        setScale(width / VIRTUAL_WIDTH);
+      }
+    };
+
+    updateScale();
+
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  if (!project.liveUrl) {
+    return (
+      <>
+        <img
+          src={project.image}
+          alt={project.title}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-coral-400/20 via-transparent to-plum-950/45 opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+      </>
+    );
+  }
+
+  return (
+    <div ref={containerRef} className="relative h-full w-full overflow-hidden">
+      {!isLoaded && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-plum-950">
+          {project.image && (
+            <img
+              src={project.image}
+              alt={project.title}
+              loading="lazy"
+              className="h-full w-full object-cover opacity-45 blur-[2px]"
+            />
+          )}
+          <span className="absolute rounded-full bg-plum-950/85 px-2.5 py-1 text-[10px] font-medium text-cream-100">
+            Loading live...
+          </span>
+        </div>
+      )}
+
+      <iframe
+        src={project.liveUrl}
+        title={project.title}
+        loading="lazy"
+        onLoad={() => setIsLoaded(true)}
+        sandbox="allow-scripts allow-same-origin"
+        style={{
+          width: `${VIRTUAL_WIDTH}px`,
+          height: `${VIRTUAL_HEIGHT}px`,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+        }}
+        className="pointer-events-none border-0 transition-transform duration-500 ease-out"
+      />
+
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-coral-400/15 via-transparent to-plum-950/35 opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+    </div>
+  );
+}
+
 /**
  * Projects / portfolio grid with compact preview cards and a "View More"
  * button to progressively reveal additional work.
  */
 export default function Portfolio() {
-  const getInitialCount = () => (
-    typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches
+  const getInitialCount = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 639px)").matches
       ? MOBILE_INITIAL_COUNT
-      : DESKTOP_INITIAL_COUNT
-  );
+      : DESKTOP_INITIAL_COUNT;
+
   const [visibleCount, setVisibleCount] = useState(getInitialCount);
   const projects = PROJECTS.slice(0, visibleCount);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 639px)");
     const updateCount = () => {
-      setVisibleCount((current) => (
+      setVisibleCount((current) =>
         current >= PROJECTS.length
           ? current
           : media.matches
             ? MOBILE_INITIAL_COUNT
             : DESKTOP_INITIAL_COUNT
-      ));
+      );
     };
 
     updateCount();
@@ -57,7 +136,9 @@ export default function Portfolio() {
 
       <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-8 lg:px-10">
         <div className="mb-8 flex flex-col gap-3 text-left sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="font-display text-3xl font-bold text-plum-900 sm:text-5xl">Projects</h2>
+          <h2 className="font-display text-3xl font-bold text-plum-900 sm:text-5xl">
+            Projects
+          </h2>
           <div className="h-px flex-1 bg-gradient-to-r from-coral-500/50 via-mauve-500/30 to-transparent sm:mb-3" />
         </div>
 
@@ -65,7 +146,11 @@ export default function Portfolio() {
           {projects.map((project, index) => (
             <div
               key={project.id}
-              className={index % 2 === 0 ? "animate-project-float" : "animate-project-float-delayed"}
+              className={
+                index % 2 === 0
+                  ? "animate-project-float"
+                  : "animate-project-float-delayed"
+              }
               style={{ animationDelay: `${index * 140}ms` }}
             >
               <article
@@ -84,13 +169,16 @@ export default function Portfolio() {
                   </div>
 
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[1rem] bg-coral-400/20">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-coral-400/20 via-transparent to-plum-950/45 opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+                    <ProjectPreviewMedia project={project} />
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Open ${project.title} live site`}
+                        className="absolute inset-0 z-20"
+                      />
+                    )}
                   </div>
 
                   <div className="mt-3 flex items-start justify-between gap-2 sm:gap-3">
@@ -98,22 +186,43 @@ export default function Portfolio() {
                       <h3 className="truncate font-display text-xs font-extrabold text-cream-50 sm:text-sm">
                         {project.title}
                       </h3>
-                      <p className="mt-1 text-[11px] font-semibold text-cream-100/65 sm:text-xs">{project.category}</p>
+                      <p className="mt-1 text-[11px] font-semibold text-cream-100/65 sm:text-xs">
+                        {project.category}
+                      </p>
                       <p className="mt-1 hidden rounded-full bg-coral-500/20 px-2 py-0.5 text-[11px] font-semibold text-coral-400 sm:inline-flex">
                         Creative build
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      aria-label={`More options for ${project.title}`}
-                      className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-cream-100/75 shadow-sm transition-all hover:bg-coral-500 hover:text-white sm:mt-1 sm:h-7 sm:w-7"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <circle cx="5" cy="12" r="1.8" />
-                        <circle cx="12" cy="12" r="1.8" />
-                        <circle cx="19" cy="12" r="1.8" />
-                      </svg>
-                    </button>
+
+                    {project.liveUrl ? (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit ${project.title}`}
+                        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-cream-100/75 shadow-sm transition-all hover:bg-coral-500 hover:text-white sm:mt-1 sm:h-7 sm:w-7"
+                      >
+                        <span className="text-xs font-bold leading-none">↗</span>
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        aria-label={`More options for ${project.title}`}
+                        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-cream-100/75 shadow-sm transition-all hover:bg-coral-500 hover:text-white sm:mt-1 sm:h-7 sm:w-7"
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <circle cx="5" cy="12" r="1.8" />
+                          <circle cx="12" cy="12" r="1.8" />
+                          <circle cx="19" cy="12" r="1.8" />
+                        </svg>
+                      </button>
+                    )}
                   </div>
                 </div>
               </article>

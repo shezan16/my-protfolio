@@ -1,4 +1,5 @@
 import Button from "./ui/Button";
+import CursorRevealPhoto from "./CursorRevealPhoto";
 
 /**
  * Hero / landing section. Dark plum gradient background with a floating
@@ -19,7 +20,7 @@ export default function Hero() {
         <div className="relative z-10 animate-slide-up text-center lg:text-left">
           <div className="mb-3 flex items-baseline justify-center gap-2 text-coral-400 lg:justify-start">
             <h2 className="font-display text-4xl font-bold sm:text-5xl">Hi</h2>
-            <h4 className="font-display text-xl font-semibold sm:text-2xl">I'm</h4>
+            <h4 className="font-display text-xl font-semibold sm:text-2xl">I&apos;m</h4>
           </div>
           <h1 className="font-display text-[2.75rem] font-extrabold leading-[1.05] text-cream-50 text-shadow-soft sm:text-6xl lg:text-7xl">
             Ridwan Ahamed
@@ -63,7 +64,7 @@ export default function Hero() {
             </Button>
             <Button
               variant="secondary"
-               onClick={() => window.open("https://t.me/shezan1666", "_blank")}
+              onClick={() => window.open("https://t.me/shezan1666", "_blank")}
             >
               <img
                 src="/images/telegram.png"
@@ -86,11 +87,13 @@ export default function Hero() {
           <span className="absolute bottom-0 left-1/3 h-14 w-14 rounded-full bg-coral-500/40 blur-xl" />
 
           <div className="relative h-[272px] w-[216px] rotate-3 rounded-[2rem] bg-gradient-to-br from-coral-400/60 via-mauve-500/50 to-plum-700/60 p-2 shadow-2xl transition-transform duration-500 hover:rotate-0 sm:h-[360px] sm:w-[280px]">
-            <img
-              src="/images/portrait.jpg"
+            <CursorRevealPhoto
+              baseImage="/images/portrait.jpg"
+              revealImage="/images/portrait-reveal.jpg"
               alt="Portrait of Ridwan Ahamed, creative developer and UI designer"
-              loading="lazy"
-              className="h-full w-full rounded-[1.6rem] object-cover shadow-inner"
+              brushRadius={40}
+              fadeSpeed={0.012}
+              className="h-full w-full rounded-[1.6rem] shadow-inner"
             />
           </div>
         </div>
