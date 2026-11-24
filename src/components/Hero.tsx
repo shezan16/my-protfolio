@@ -1,26 +1,29 @@
 import Button from "./ui/Button";
 import CursorRevealPhoto from "./CursorRevealPhoto";
+import HeroGridBackground from "./HeroGridBackground";
 
 /**
- * Hero / landing section. Dark plum gradient background with a floating
- * portrait composition and decorative 3D-style shapes.
+ * Hero / landing section. Deep #251720 plum-charcoal 3D tile grid with
+ * matching warm inner light when tiles separate, paired with a floating
+ * portrait composition and decorative shapes.
  */
 export default function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-gradient-to-br from-plum-900 via-plum-950 to-[#1c1220] px-0 pb-16 pt-12 sm:pb-24 sm:pt-20 lg:pt-24"
+      className="relative overflow-hidden bg-[#251720] px-0 pb-16 pt-12 sm:pb-24 sm:pt-20 lg:pt-24"
     >
-      {/* Ambient glow */}
-      <div className="pointer-events-none absolute -left-32 bottom-0 h-72 w-72 rounded-full bg-coral-500/30 blur-3xl" />
-      <div className="pointer-events-none absolute right-0 top-1/4 h-80 w-80 rounded-full bg-mauve-500/20 blur-3xl" />
+      {/* Three.js 3D Grid & Inner Gap Light Background */}
+      <HeroGridBackground className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:gap-16 sm:px-8 lg:grid-cols-2 lg:gap-10 lg:px-10">
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:gap-16 sm:px-8 lg:grid-cols-2 lg:gap-10 lg:px-10">
         {/* Text content */}
         <div className="relative z-10 animate-slide-up text-center lg:text-left">
           <div className="mb-3 flex items-baseline justify-center gap-2 text-coral-400 lg:justify-start">
             <h2 className="font-display text-4xl font-bold sm:text-5xl">Hi</h2>
-            <h4 className="font-display text-xl font-semibold sm:text-2xl">I&apos;m</h4>
+            <h4 className="font-display text-xl font-semibold sm:text-2xl">
+              I&apos;m
+            </h4>
           </div>
           <h1 className="font-display text-[2.75rem] font-extrabold leading-[1.05] text-cream-50 text-shadow-soft sm:text-6xl lg:text-7xl">
             Ridwan Ahamed
@@ -33,7 +36,11 @@ export default function Hero() {
           <div className="mt-6 flex flex-row flex-wrap items-center justify-center gap-3 sm:mt-8 sm:gap-4 lg:justify-start">
             <Button
               variant="primary"
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() =>
+                document
+                  .getElementById("contact")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
             >
               <svg
                 aria-hidden="true"
